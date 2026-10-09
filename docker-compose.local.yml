@@ -1,0 +1,7 @@
+# Local-development override: build the image locally instead of pulling GHCR.
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+
+services:
+  apex-supercross:
+    image: apex-supercross:local
+    build: .

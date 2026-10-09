@@ -1,0 +1,22 @@
+# Apex Supercross — docker compose stack.
+# The image is built and published to GHCR by GitHub Actions
+# (.github/workflows/build-image.yml). Build once, run anywhere.
+#
+#   docker compose up -d
+#   open http://localhost:8080
+#
+# To run a locally built image instead, use:
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
+
+services:
+  apex-supercross:
+    image: ghcr.io/atvriders/apex-supercross:latest
+    container_name: apex-supercross
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1/"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
