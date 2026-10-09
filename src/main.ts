@@ -3,6 +3,11 @@
 import { GameApp } from './game/app';
 import './style.css';
 
+// Build marker: bumping this line rotates the bundle hash, which invalidates
+// any stale CDN/browser cache entry for the previous JS filename.
+const BUILD_TAG = '2026-10-09-r3-mime-fix';
+console.info('APEX SUPERCROSS build:', BUILD_TAG);
+
 function showLoadError(msg: string) {
   const text = document.getElementById('loading-text');
   if (text) text.textContent = 'ERROR: ' + msg;
