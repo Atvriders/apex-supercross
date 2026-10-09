@@ -33,6 +33,11 @@ jobs:
       - name: Build web app
         run: npm run build
 
+      - name: Validate nginx config in image
+        run: |
+          docker build -t apex-supercross:ci-test .
+          docker run --rm apex-supercross:ci-test nginx -t
+
       - name: Log in to GHCR
         uses: docker/login-action@v3
         with:
