@@ -68,6 +68,12 @@ html, body { width: 100%; height: 100%; overflow: hidden; background: #050608; }
 .loading-bar { width: 420px; height: 8px; background: rgba(255,255,255,0.08); }
 #loading-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #ff2e12, #ffb300); transition: width 0.2s; }
 #loading-text { color: #8a90a0; font-size: 12px; letter-spacing: 2px; }
+#loading.fatal { gap: 20px; }
+#loading-text.fatal { display: flex; flex-direction: column; align-items: center; gap: 12px; max-width: 620px; text-align: center; }
+.fatal-head { color: #ff2e12; font-size: 22px; font-weight: 800; letter-spacing: 4px; }
+.fatal-body { color: #c8ccd8; font-size: 13px; line-height: 1.6; }
+.fatal-retry { margin-top: 8px; background: linear-gradient(90deg, #ff2e12, #ffb300); border: none; color: #050608; font-weight: 800; letter-spacing: 3px; padding: 10px 34px; cursor: pointer; font-family: inherit; }
+.fatal-retry:hover { filter: brightness(1.15); }
 
 .split { position: absolute; width: 50%; height: 100%; top: 0; }
 .split.left { left: 0; border-right: 2px solid rgba(255,255,255,0.15); }

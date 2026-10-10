@@ -23,7 +23,8 @@ export class Renderer {
     const attempts: THREE.WebGLRendererParameters[] = [
       { canvas, antialias: settings.antialias, powerPreference: 'high-performance' },
       { canvas, antialias: false, powerPreference: 'default' },
-      { canvas, antialias: false, powerPreference: 'default', failIfMajorPerformanceCaveat: false },
+      { canvas, antialias: false, powerPreference: 'low-power' },
+      { canvas, antialias: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: false },
     ];
     let created: THREE.WebGLRenderer | null = null;
     let lastErr: unknown = null;
@@ -36,10 +37,8 @@ export class Renderer {
       }
     }
     if (!created) {
-      throw new Error(
-        'WebGL is not available in this browser. Enable hardware acceleration or try another browser. ' +
-        String(lastErr),
-      );
+      console.error('WebGL context creation failed:', lastErr);
+      throw new Error('WebGL is not available in this browser. Enable hardware acceleration or try another browser.');
     }
     this.renderer = created;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
@@ -52,7 +51,7 @@ export class Renderer {
     const s = this.settings;
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2) * s.renderScale);
     this.renderer.shadowMap.enabled = s.shadows;
-    this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.shadowMap.type = THREE.PCFShadowMap;
     this.composer?.dispose();
     // Bloom/SSAO post-processing is Ultra-only: EffectComposer is unreliable on
     // software GL (SwiftShader/llvmpipe), so lower presets render directly.

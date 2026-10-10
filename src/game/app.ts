@@ -166,8 +166,34 @@ export class GameApp {
     } catch (e) {
       console.error(e);
       console.error('STACK:', e instanceof Error ? e.stack : String(e));
-      text.textContent = 'FAILED TO LOAD: ' + String(e);
+      this.showFatal(e);
     }
+  }
+
+  private showFatal(e: unknown) {
+    const msg = String(e);
+    const root = document.getElementById('loading')!;
+    const fill = document.getElementById('loading-fill')!;
+    const text = document.getElementById('loading-text')!;
+    root.classList.add('fatal');
+    fill.style.display = 'none';
+    text.classList.add('fatal');
+    text.innerHTML = '';
+    const webgl = /webgl/i.test(msg);
+    const head = document.createElement('div');
+    head.className = 'fatal-head';
+    head.textContent = webgl ? 'WEBGL UNAVAILABLE' : 'FAILED TO LOAD';
+    const body = document.createElement('div');
+    body.className = 'fatal-body';
+    body.textContent = webgl
+      ? 'WebGL is not available in this browser. Enable hardware acceleration in your browser settings, update your GPU drivers, or try the latest Chrome, Edge, or Firefox.'
+      : msg.slice(0, 220);
+    const retry = document.createElement('button');
+    retry.className = 'fatal-retry';
+    retry.type = 'button';
+    retry.textContent = 'RETRY';
+    retry.onclick = () => window.location.reload();
+    text.append(head, body, retry);
   }
 
   private makeSkyAndFog(scene: THREE.Scene) {
